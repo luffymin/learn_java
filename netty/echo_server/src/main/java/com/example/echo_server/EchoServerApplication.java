@@ -1,10 +1,12 @@
 package com.example.echo_server;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EchoServerApplication {
+public class EchoServerApplication implements CommandLineRunner {
 
 	@Value("${server.port}")
  	private int port;
@@ -14,7 +16,8 @@ public class EchoServerApplication {
 	}
 
 	@Override
-    public void run(String... args) {
-        logger.info(String.format("%s", String.valueOf(port)));
+    public void run(String... args) throws Exception {
+        final EchoServer server = new EchoServer(port);
+		server.start();
     }
 }
