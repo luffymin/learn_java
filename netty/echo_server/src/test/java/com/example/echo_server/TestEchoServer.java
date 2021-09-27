@@ -1,6 +1,6 @@
 package com.example.echo_server;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.Assert;
 import java.net.Socket;
 import java.io.InputStream;

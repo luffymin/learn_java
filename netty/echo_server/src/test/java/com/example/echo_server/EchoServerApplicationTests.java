@@ -18,26 +18,5 @@ class EchoServerApplicationTests {
 
 	@Test
 	void contextLoads() {
-		echoClient();
-	}
-
-	void echoClient() {
-		try {
-			Socket s = new Socket("127.0.0.1", 9999);
-
-			InputStream is = s.getInputStream();
-			OutputStream os = s.getOutputStream();
-
-			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
-			bw.write("Netty rocks!");
-			bw.flush();
-
-			BufferedReader br = new BufferedReader(new InputStreamReader(is));
-			Assert.assertEquals(br.readLine(), "Netty rocks!");
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-      	} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }
