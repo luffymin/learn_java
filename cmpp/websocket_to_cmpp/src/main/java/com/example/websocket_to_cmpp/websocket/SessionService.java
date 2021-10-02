@@ -10,15 +10,15 @@ public class SessionService {
     private static Map<String, WebSocketSession> sessionMap = new ConcurrentHashMap<String, WebSocketSession>();
 
     public void add(String id, WebSocketSession session) {
-        sessionMap.put(id, session);
+        this.sessionMap.put(id, session);
     }
 
     public void remove(String id) {
-        sessionMap.remove(id);
+        this.sessionMap.remove(id);
     }
 
     public WebSocketSession get(String id) {
-        return sessionMap.get(id);
+        return this.sessionMap.get(id);
     }
 
 }
