@@ -8,13 +8,13 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 
 @Configuration
 @EnableWebSocket
-public class CmppSubmitConfigurer implements WebSocketConfigurer {
+public class CmppConfigurer implements WebSocketConfigurer {
 
     @Autowired
-    private CmppSubmitHandler cmppSubmitHandler;
+    private CmppHandler cmppSubmitHandler;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(cmppSubmitHandler, "/submit");
+        registry.addHandler(cmppSubmitHandler, "/cmpp");
     }
 }

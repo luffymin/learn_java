@@ -8,7 +8,7 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketMessage;
 
 @Component
-public class CmppSubmitHandler extends TextWebSocketHandler {
+public class CmppHandler extends TextWebSocketHandler {
 
     @Autowired
     private SessionService sessionService;
@@ -25,7 +25,7 @@ public class CmppSubmitHandler extends TextWebSocketHandler {
 
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-        
+        System.out.println(message);
     }
 
 }
