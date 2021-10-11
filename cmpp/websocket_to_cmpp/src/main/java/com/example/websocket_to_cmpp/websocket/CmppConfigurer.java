@@ -9,7 +9,7 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @Configuration
 @EnableWebSocket
 public class CmppConfigurer implements WebSocketConfigurer {
-
+    
     @Autowired
     private CmppHandler cmppSubmitHandler;
 

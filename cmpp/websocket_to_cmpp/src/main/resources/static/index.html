@@ -1,31 +1,47 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8" />
-		<title>websocket to cmpp</title>		
+		<meta charset="utf-8"/>
+		<title>websocket to cmpp</title>
 	</head>
 	<body>
-		username: <input type="text" name="" id="username" value=""/></br>
-		<button type="button" id="send">send</button></br>
+		id: <input type="text" name="" id="id" value=""/></br>
+		host: <input type="text" name="" id="host" value=""/></br>
+		port: <input type="text" name="" id="port" value=""/></br>
+		spCode: <input type="text" name="" id="spCode" value=""/></br>
+		serviceId: <input type="text" name="" id="serviceId" value=""/></br>
+		msgSrc: <input type="text" name="" id="msgSrc" value=""/></br>
+		version: <input type="text" name="" id="version" value=""/></br>
+		userName: <input type="text" name="" id="userName" value=""/></br>
+		password: <input type="text" name="" id="password" value=""/></br>
+		<button type="button" id="connect">connect</button></br>
 		<div id="response"></div>
 	</body>
 </html>
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-<script type="text/javascript"> 
+<script type="text/javascript">
 	var ws = new WebSocket("ws://127.0.0.1:8080/cmpp");
 
-	//开启连接open后客户端处理方法
 	ws.onopen = function() {
 		document.getElementById('response').innerHTML="连接已打开";
 	};
 
-	$('#send').click(function() {
+	$('#connect').click(function() {
 		var obj = new Object();
-		obj.username = $('#username').val();	
+		obj.command = "CMPP_CONNECT";
+		obj.id = $('#id').val();
+		obj.host = $('#host').val();
+		obj.port = $('#port').val();
+		obj.spCode = $('#spCode').val();
+		obj.serviceId = $('#serviceId').val();
+		obj.msgSrc = $('#msgSrc').val();
+		obj.version = $('#version').val();
+		obj.userName = $('#userName').val();
+		obj.password = $('#password').val();
 		ws.send(JSON.stringify(obj));
 	})
 
-	ws.onmessage = function (evt) { 
+	ws.onmessage = function (evt) {
 		console.log(evt.data);
 		$('#response').text(evt.data);
 	};
