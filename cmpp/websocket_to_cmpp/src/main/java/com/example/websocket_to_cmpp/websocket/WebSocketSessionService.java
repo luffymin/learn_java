@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class SessionService {
+public class WebSocketSessionService {
 
     private static Map<String, WebSocketSession> sessionMap = new ConcurrentHashMap<String, WebSocketSession>();
 
@@ -21,5 +21,4 @@ public class SessionService {
     public WebSocketSession get(String id) {
         return sessionMap.get(id);
     }
-
 }

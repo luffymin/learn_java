@@ -38,7 +38,9 @@
 		obj.version = $('#version').val();
 		obj.userName = $('#userName').val();
 		obj.password = $('#password').val();
-		ws.send(JSON.stringify(obj));
+		s = JSON.stringify(obj);
+		console.log(s);
+		ws.send(s);
 	})
 
 	ws.onmessage = function (evt) {
