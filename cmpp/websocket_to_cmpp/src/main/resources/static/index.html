@@ -15,6 +15,10 @@
 		userName: <input type="text" name="" id="userName" value=""/></br>
 		password: <input type="text" name="" id="password" value=""/></br>
 		<button type="button" id="connect">connect</button></br>
+		</br>
+		msgContent: <input type="text" name="" id="msgContent" value=""/></br>
+		destterminalId: <input type="text" name="" id="destterminalId" value=""/></br>
+		<button type="button" id="submit">submit</button></br>
 		<div id="response"></div>
 	</body>
 </html>
@@ -38,6 +42,16 @@
 		obj.version = $('#version').val();
 		obj.userName = $('#userName').val();
 		obj.password = $('#password').val();
+		s = JSON.stringify(obj);
+		console.log(s);
+		ws.send(s);
+	})
+
+	$('#submit').click(function() {
+		var obj = new Object();
+		obj.command = "CMPP_SUBMIT";
+		obj.msgContent = $('#msgContent').val();
+		obj.destterminalId = $('#destterminalId').val();
 		s = JSON.stringify(obj);
 		console.log(s);
 		ws.send(s);

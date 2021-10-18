@@ -9,5 +9,4 @@ public class WebSocketToCmppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(WebSocketToCmppApplication.class, args);
 	}
-
 }

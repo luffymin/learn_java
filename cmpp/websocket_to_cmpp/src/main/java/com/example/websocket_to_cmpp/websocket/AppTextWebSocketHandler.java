@@ -1,20 +1,18 @@
 package com.example.websocket_to_cmpp.websocket;
 
-import com.zx.sms.handler.api.BusinessHandlerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.socket.handler.TextWebSocketHandler;
-import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import com.zx.sms.connect.manager.EndpointEntity.SupportLongMessage;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
+import java.nio.charset.Charset;
+import java.util.*;
 import com.example.websocket_to_cmpp.cmpp.AppCmppClientEndpointEntity;
 import com.example.websocket_to_cmpp.cmpp.CmppService;
-
-import java.util.Map;
-import java.nio.charset.Charset;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zx.sms.connect.manager.EndpointEntity.SupportLongMessage;
 
 @Component
 public class AppTextWebSocketHandler extends TextWebSocketHandler {
@@ -38,31 +36,38 @@ public class AppTextWebSocketHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        final Map map = mapper.readValue(message.getPayload(), Map.class);
-        String command = map.get("command").toString();
+        JsonNode node = mapper.readValue(message.getPayload(), JsonNode.class);
+        String command = node.get("command").asText();
         switch(command){
             case "CMPP_CONNECT":
                 AppCmppClientEndpointEntity client = new AppCmppClientEndpointEntity();
-                client.setId(map.get("id").toString());
-                client.setServiceId(map.get("serviceId").toString());
-                client.setHost(map.get("host").toString());
-                client.setPort(Integer.parseInt(map.get("port").toString()));
-                client.setVersion((short)(Integer.parseInt(map.get("version").toString()) << 4));
+                client.setWebSocketSessionId(session.getId());
+                client.setId(node.get("id").asText());
+                client.setServiceId(node.get("serviceId").asText());
+                client.setHost(node.get("host").asText());
+                client.setPort(node.get("port").asInt());
+                client.setVersion((short)(node.get("version").asInt() << 4));
                 client.setChartset(Charset.forName("utf-8"));
-                client.setSpCode(map.get("spCode").toString());
+                client.setSpCode(node.get("spCode").asText());
                 client.setGroupName("client");
-                client.setUserName(map.get("userName").toString());
-                client.setPassword(map.get("password").toString());
-
+                client.setUserName(node.get("userName").asText());
+                client.setPassword(node.get("password").asText());
                 client.setMaxChannels((short)5);
-                client.setRetryWaitTimeSec((short)30);
                 client.setUseSSL(false);
                 client.setWriteLimit(70);
-                client.setReSendFailMsg(true);
+                client.setReSendFailMsg(false);
                 client.setSupportLongmsg(SupportLongMessage.BOTH);
                 cmppService.addClient(client);
                 break;
-            case "SUBMIT":
+            case "CMPP_SUBMIT":
+                JsonNode destterminalId = node.get("destterminalId");
+                if (destterminalId.isArray()) {
+                    List<String> list = new ArrayList<String>();
+                    for (JsonNode id : destterminalId) {
+                        list.add(id.asText());
+                    }
+                    cmppService.sendSubimtRequestMessage(node.get("msgContent").asText(), list.toArray(new String[list.size()]));
+                }
                 break;
             default:
                 break;
