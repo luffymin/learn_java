@@ -8,10 +8,13 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import java.net.InetSocketAddress;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
 public class EchoServer {
+
+    private static Logger log = LoggerFactory.getLogger(EchoServer.class);
+
     private final int port;
 
     public EchoServer(int port) {
@@ -40,4 +43,5 @@ public class EchoServer {
             group.shutdownGracefully().sync();
         }
     }
+
 }

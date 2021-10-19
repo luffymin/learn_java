@@ -48,4 +48,5 @@ public class EchoServerTest {
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 		Assertions.assertEquals(br.readLine(), "Netty rocks!");
 	}
+
 }

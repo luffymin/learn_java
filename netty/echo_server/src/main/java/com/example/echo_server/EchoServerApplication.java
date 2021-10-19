@@ -3,9 +3,7 @@ package com.example.echo_server;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.beans.factory.annotation.Value;
 
 @SpringBootApplication
 public class EchoServerApplication implements CommandLineRunner {
@@ -22,4 +20,5 @@ public class EchoServerApplication implements CommandLineRunner {
         final EchoServer server = new EchoServer(port);
 		server.start();
     }
+
 }

@@ -1,5 +1,6 @@
 package com.example.echo_server;
 
+import org.jetbrains.annotations.NotNull;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
@@ -7,20 +8,23 @@ import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
 @Sharable
 public class EchoServerHandler extends ChannelInboundHandlerAdapter {
+
+    private static Logger log = LoggerFactory.getLogger(EchoServerHandler.class);
+
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) {
+    public void channelRead(@NotNull ChannelHandlerContext ctx, Object msg) {
         ByteBuf in = (ByteBuf) msg;
         log.info("Server received: " + in.toString(CharsetUtil.UTF_8));
         ctx.write(in);
     }
 
     @Override
-    public void channelReadComplete(ChannelHandlerContext ctx)
+    public void channelReadComplete(@NotNull ChannelHandlerContext ctx)
             throws Exception {
         ctx.writeAndFlush(Unpooled.EMPTY_BUFFER)
             .addListener(ChannelFutureListener.CLOSE);
@@ -32,4 +36,5 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
         cause.printStackTrace();
         ctx.close();
     }
+
 }
