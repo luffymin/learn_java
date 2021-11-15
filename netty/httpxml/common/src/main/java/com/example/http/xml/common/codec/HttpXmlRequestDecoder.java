@@ -1,14 +1,17 @@
-package com.example.http_xml;
+package com.example.http.xml.common.codec;
 
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class HttpXmlRequestDecoder extends AbstractHttpXmlDecoder<FullHttpRequest> {
+
+    private static Logger log = LoggerFactory.getLogger(HttpXmlRequestDecoder.class);
 
     public HttpXmlRequestDecoder(Class<?> clazz) {
         super(clazz);
@@ -26,8 +29,7 @@ public class HttpXmlRequestDecoder extends AbstractHttpXmlDecoder<FullHttpReques
 
     private static void sendError(ChannelHandlerContext ctx, HttpResponseStatus status) {
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
-                status, Unpooled.copiedBuffer("Failure: " + status.toString()
-                + "\r\n", CharsetUtil.UTF_8));
+                status, Unpooled.copiedBuffer("Failure: " + status.toString() + "\r\n", CharsetUtil.UTF_8));
         response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain; charset=UTF-8");
         ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
     }

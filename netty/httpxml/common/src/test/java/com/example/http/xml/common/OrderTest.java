@@ -6,20 +6,21 @@ import com.example.http.xml.common.pojo.Order;
 import com.example.http.xml.common.pojo.Shipping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import org.junit.jupiter.api.Test;
 
-public class TestOrder {
+public class OrderTest {
 
-    private static Logger log = LoggerFactory.getLogger(TestOrder.class);
+    private static Logger log = LoggerFactory.getLogger(OrderTest.class);
 
     private String encode2Xml(Order order) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         XMLEncoder encoder = new XMLEncoder(out);
         encoder.writeObject(order);
+        encoder.close();
         return out.toString();
     }
 
@@ -29,8 +30,9 @@ public class TestOrder {
         return (Order)decoder.readObject();
     }
 
-    public static void main(String[] args) {
-        TestOrder test = new TestOrder();
+    @Test
+    public void test() {
+        OrderTest test = new OrderTest();
         Order order = new Order();
         order.setTotal(9999.999f);
         Address address = new Address();
@@ -47,6 +49,7 @@ public class TestOrder {
         order.setShipping(Shipping.INTERNATIONAL_MAIL);
         order.setShipTo(address);
 
+        log.info("order: " + order.toString());
         String body = test.encode2Xml(order);
         log.info("encode2Xml body: " + body);
         Order orderNew = test.decode2Order(body);

@@ -1,4 +1,4 @@
-package com.example.http_xml;
+package com.example.http.xml.common.pojo;
 
 import lombok.Data;
 

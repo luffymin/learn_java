@@ -1,4 +1,4 @@
-package com.example.http_xml;
+package com.example.http.xml.common.codec;
 
 import io.netty.handler.codec.http.FullHttpRequest;
 
