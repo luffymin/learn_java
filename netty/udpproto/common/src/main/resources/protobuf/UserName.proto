@@ -1,0 +1,12 @@
+syntax = "proto3";
+package com.example.udp.proto.common.protobuf;
+option java_package = "com.example.udp.proto.common.protobuf";
+option java_outer_classname = "UserNameProto";
+
+message UserName {
+  string username = 1;
+}
+
+message UserNameResp {
+  int32 code = 1;
+}
