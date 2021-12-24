@@ -1,10 +1,10 @@
-package com.example.cmpp_server;
+package com.example.http.xml;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CmppServerApplicationTests {
+class HttpXmlClientApplicationTests {
 
 	@Test
 	void contextLoads() {

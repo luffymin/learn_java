@@ -1,34 +1,43 @@
 package com.example.cmpp_server.connect.manager;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import java.util.List;
-import com.example.cmpp_server.jpa.model.CmppServerChild;
+import com.example.cmpp_server.CustomSpringContextAware;
 import com.zx.sms.codec.cmpp.msg.CmppConnectRequestMessage;
 import com.zx.sms.connect.manager.EndpointEntity;
 import com.zx.sms.session.cmpp.SessionLoginManager;
-import com.example.cmpp_server.jpa.service.CmppServerChildService;
+import lombok.extern.slf4j.Slf4j;
+import java.nio.charset.Charset;
+import com.example.cmpp_server.CustomClientProperties;
+
 
 @Slf4j
-public class CustomCmppSessionLoginManager extends SessionLoginManager {
+class CustomCMPPSessionLoginManager extends SessionLoginManager {
 
-    public CustomCmppSessionLoginManager(EndpointEntity entity) {
+    public CustomCMPPSessionLoginManager(EndpointEntity entity) {
         super(entity);
     }
 
-    @Autowired
-    private CmppServerChildService cmppServerChildService;
-
     @Override
     protected EndpointEntity queryEndpointEntityByMsg(Object msg) {
+        CustomClientProperties properties = CustomSpringContextAware.getBean(CustomClientProperties.class);
+
         if (msg instanceof CmppConnectRequestMessage) {
             CmppConnectRequestMessage message = (CmppConnectRequestMessage)msg;
-            String username = message.getSourceAddr();
             short version = message.getVersion();
-            List<CmppServerChild> list = cmppServerChildService.findByUserName(username);
-            if(list.size() != 1) {
-                log.info();
-            }
+
+            CustomCMPPServerChildEndpointEntity entity = new CustomCMPPServerChildEndpointEntity();
+            entity.setId(String.format(properties.getUserName()));
+            entity.setMsgSrc(properties.getMsgSrc());
+            entity.setSpCode(properties.getSpCode());
+            entity.setServiceId(properties.getServiceId());
+            entity.setChartset(Charset.forName("utf-8"));
+            entity.setGroupName(properties.getGroupName());
+            entity.setUserName(properties.getUserName());
+            entity.setPassword(properties.getPassword());
+            entity.setVersion(version);
+            entity.setSupportLongmsg(EndpointEntity.SupportLongMessage.BOTH);
+            entity.setLiftTime(30 * 1000);
+            entity.setReSendFailMsg(false);
+            return entity;
         }
 
         return null;

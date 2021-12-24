@@ -9,22 +9,22 @@ public class CustomClientProperties {
     @Value("${client.id}")
     private String id;
 
-    @Value("client.msgSrc")
+    @Value("${client.msgSrc}")
     private String msgSrc;
 
-    @Value("client.spCode")
+    @Value("${client.spCode}")
     private String spCode;
 
-    @Value("client.serviceId")
+    @Value("${client.serviceId}")
     private String serviceId;
 
-    @Value("client.groupName")
+    @Value("${client.groupName}")
     private String groupName;
 
-    @Value("client.userName")
+    @Value("${client.userName}")
     private String userName;
 
-    @Value("client.password")
+    @Value("${client.password}")
     private String password;
 
     public String getId() {

@@ -1,20 +1,18 @@
 package com.example.cmpp_server.connect.manager;
 
-import io.netty.channel.ChannelPipeline;
 import com.zx.sms.connect.manager.cmpp.CMPPServerEndpointConnector;
-import com.zx.sms.connect.manager.cmpp.CMPPServerEndpointEntity;
+import io.netty.channel.ChannelPipeline;
 
-public class CustomCmppServerEndpointConnector extends CMPPServerEndpointConnector {
+public class CustomCMPPServerEndpointConnector extends CMPPServerEndpointConnector {
 
-    public CustomCmppServerEndpointConnector(CMPPServerEndpointEntity e)
-    {
+    public CustomCMPPServerEndpointConnector(CustomCMPPServerEndpointEntity e) {
         super(e);
     }
 
     @Override
     protected void doinitPipeLine(ChannelPipeline pipeline) {
         super.doinitPipeLine(pipeline);
-        pipeline.remove("sessionLoginManager");
-        pipeline.addLast("sessionLoginManager", new CustomCmppSessionLoginManager(this.getEndpointEntity()));
+        pipeline.replace("sessionLoginManager", "sessionLoginManager", new CustomCMPPSessionLoginManager(this.getEndpointEntity()));
     }
+
 }

@@ -1,30 +1,33 @@
 package com.example.cmpp_server;
 
+import com.example.cmpp_server.connect.manager.CustomCMPPServerEndpointEntity;
+import com.zx.sms.connect.manager.EndpointManager;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import java.util.concurrent.locks.LockSupport;
-import com.zx.sms.connect.manager.EndpointManager;
-import com.example.cmpp_server.connect.manager.CustomCmppServerEndpointEntity;
 
 @SpringBootApplication
-public class CmppServerApplication implements CommandLineRunner {
-
-	@Value("${server.port}")
-	private int port;
+public class CMPPServerApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CmppServerApplication.class, args);
+		SpringApplication.run(CMPPServerApplication.class, args);
 	}
 
+	@Value("${server.port}")
+	private int serverPort;
+
 	@Override
-	public void run(String... args) throws Exception {
+	public void run(String... args) {
 		final EndpointManager manager = EndpointManager.INS;
-		CustomCmppServerEndpointEntity server = new CustomCmppServerEndpointEntity();
+
+		CustomCMPPServerEndpointEntity server = new CustomCMPPServerEndpointEntity();
 		server.setId("server");
 		server.setHost("0.0.0.0");
-		server.setPort(port);
+		server.setPort(serverPort);
 		server.setValid(true);
 		server.setUseSSL(false);
 
